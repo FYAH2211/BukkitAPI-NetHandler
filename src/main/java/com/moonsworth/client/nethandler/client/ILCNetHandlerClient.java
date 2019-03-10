@@ -5,6 +5,8 @@ import com.moonsworth.client.nethandler.server.*;
 
 public interface ILCNetHandlerClient extends ILCNetHandler {
 
+    void handleGhost(LCPacketGhost packet);
+
     void handleCooldown(LCPacketCooldown packet);
 
     void handleNotification(LCPacketNotification packet);
