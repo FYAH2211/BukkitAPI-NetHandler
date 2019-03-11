@@ -44,7 +44,7 @@ public abstract class LCPacket {
         addPacket(20, LCPacketWorldBorder.class);
         addPacket(21, LCPacketWorldBorderRemove.class);
         addPacket(22, LCPacketWorldBorderUpdate.class);
-        addPacket(25, LCPacketGhost.class);
+//        addPacket(25, LCPacketGhost.class);
 
         // Shared
         addPacket(23, LCPacketWaypointAdd.class);
