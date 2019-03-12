@@ -13,6 +13,4 @@ public interface ILCNetHandlerServer extends ILCNetHandler {
     void handleVoiceChannelSwitch(LCPacketVoiceChannelSwitch packet);
 
     void handleVoiceMute(LCPacketVoiceMute packet);
-
-    void handleEmote(LCPacketEmoteBroadcast packet);
 }

@@ -36,6 +36,6 @@ public class LCPacketEmoteBroadcast extends LCPacket {
 
     @Override
     public void process(ILCNetHandler handler) {
-        ((ILCNetHandlerServer) handler).handleEmote(this);
+        handler.handleEmote(this);
     }
 }
