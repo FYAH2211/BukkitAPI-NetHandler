@@ -11,26 +11,26 @@ import java.util.UUID;
 
 public class LCPacketEmoteBroadcast extends LCPacket {
 
-    @Getter private UUID broadcastTo;
+    @Getter private UUID uuid; // User doing the emote
     @Getter private int emoteId;
 
     public LCPacketEmoteBroadcast() {
     }
 
     public LCPacketEmoteBroadcast(UUID broadcastTo, int emoteId) {
-        this.broadcastTo = broadcastTo;
+        this.uuid = broadcastTo;
         this.emoteId = emoteId;
     }
 
     @Override
     public void write(ByteBufWrapper b) throws IOException {
+        b.writeUUID(uuid);
         b.buf().writeInt(emoteId);
-        b.writeUUID(broadcastTo);
     }
 
     @Override
     public void read(ByteBufWrapper b) throws IOException {
-        this.broadcastTo = b.readUUID();
+        this.uuid = b.readUUID();
         this.emoteId = b.buf().readInt();
     }
 
