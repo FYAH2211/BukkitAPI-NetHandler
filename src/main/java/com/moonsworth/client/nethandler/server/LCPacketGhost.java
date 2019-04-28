@@ -14,31 +14,44 @@ import java.util.UUID;
 @Getter
 public class LCPacketGhost extends LCPacket {
 
-    private List<UUID> uuidList;
+    private List<UUID> addGhostList;
+    private List<UUID> removeGhostList;
 
     public LCPacketGhost() {
     }
 
-    public LCPacketGhost(List<UUID> uuidList) {
-        this.uuidList = uuidList;
+    public LCPacketGhost(List<UUID> uuidList, List<UUID> removeGhostList) {
+        this.addGhostList = uuidList;
+        this.removeGhostList = removeGhostList;
     }
 
     @Override
     public void write(ByteBufWrapper b) throws IOException {
-        b.writeVarInt(uuidList.size());
+        b.writeVarInt(addGhostList.size());
 
-        for (UUID uuid : uuidList) {
+        for (UUID uuid : addGhostList) {
+            b.writeUUID(uuid);
+        }
+        b.writeVarInt(removeGhostList.size());
+
+        for (UUID uuid : removeGhostList) {
             b.writeUUID(uuid);
         }
     }
 
     @Override
     public void read(ByteBufWrapper b) throws IOException {
-        int uuidListSize = b.readVarInt();
-        this.uuidList = new ArrayList<>();
+        int addListSize = b.readVarInt();
+        this.addGhostList = new ArrayList<>();
 
-        for (int i = 0; i < uuidListSize; i++) {
-            this.uuidList.add(b.readUUID());
+        for (int i = 0; i < addListSize; i++) {
+            this.addGhostList.add(b.readUUID());
+        }
+        int removeListSize = b.readVarInt();
+        this.removeGhostList = new ArrayList<>();
+
+        for (int i = 0; i < removeListSize; i++) {
+            this.removeGhostList.add(b.readUUID());
         }
     }
 
