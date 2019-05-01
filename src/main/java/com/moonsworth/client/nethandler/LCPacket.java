@@ -2,10 +2,7 @@ package com.moonsworth.client.nethandler;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.moonsworth.client.nethandler.client.LCPacketClientVoice;
-import com.moonsworth.client.nethandler.client.LCPacketEmoteBroadcast;
-import com.moonsworth.client.nethandler.client.LCPacketVoiceChannelSwitch;
-import com.moonsworth.client.nethandler.client.LCPacketVoiceMute;
+import com.moonsworth.client.nethandler.client.*;
 import com.moonsworth.client.nethandler.server.*;
 import com.moonsworth.client.nethandler.shared.LCPacketWaypointAdd;
 import com.moonsworth.client.nethandler.shared.LCPacketWaypointRemove;
@@ -23,6 +20,7 @@ public abstract class LCPacket {
         addPacket(0, LCPacketClientVoice.class);
         addPacket(1, LCPacketVoiceChannelSwitch.class);
         addPacket(2, LCPacketVoiceMute.class);
+        addPacket(27, LCPacketVersionNumber.class);
         // Emotes
         addPacket(26, LCPacketEmoteBroadcast.class);
 
