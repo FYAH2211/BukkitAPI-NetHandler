@@ -12,4 +12,7 @@ public interface ILCNetHandlerServer extends ILCNetHandler {
     void handleVoiceMute(LCPacketVoiceMute packet);
 
     void handlePacketVersionNumber(LCPacketVersionNumber packet);
+
+    void handleStaffModStatus(LCPacketStaffModStatus packet);
+
 }
