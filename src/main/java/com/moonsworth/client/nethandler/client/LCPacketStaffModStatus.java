@@ -4,6 +4,7 @@ import com.moonsworth.client.nethandler.ByteBufWrapper;
 import com.moonsworth.client.nethandler.ILCNetHandler;
 import com.moonsworth.client.nethandler.LCPacket;
 import com.moonsworth.client.nethandler.server.ILCNetHandlerServer;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 public class LCPacketStaffModStatus extends LCPacket {
 
-    private Set<String> enabled;
+    @Getter private Set<String> enabled;
 
     public LCPacketStaffModStatus(Set<String> enabled) {
         this.enabled = enabled;
