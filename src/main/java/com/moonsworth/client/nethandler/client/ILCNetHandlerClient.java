@@ -46,4 +46,6 @@ public interface ILCNetHandlerClient extends ILCNetHandler {
     void handleWorldBorderUpdate(LCPacketWorldBorderUpdate packet);
 
     void handleWorldBorderRemove(LCPacketWorldBorderRemove packet);
+
+    void handleBossBar(LCPacketBossBar packet);
 }
