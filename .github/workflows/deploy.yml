@@ -19,4 +19,9 @@ jobs:
           java-version: 1.8
         
       - name: Build with Maven
-        run: mvn clean -B deploy -Dregistry=https://maven.pkg.github.com/LunarClient -Dtoken=${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir ~/.m2
+          echo "<settings><servers><server><id>github</id><username>OWNER</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+          mvn clean deploy -B
