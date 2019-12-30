@@ -7,22 +7,11 @@
     <groupId>com.moonsworth</groupId>
     <artifactId>LunarClientAPINetHandler</artifactId>
     <name>LunarClientAPINetHandler</name>
-    <version>${revision}-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
+ 
     <properties>
-      <revision>1.0</revision>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>moonsworth-mvn</id>
-            <url>https://maven.moonsworth.com/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>moonsworth-mvn</id>
-            <url>https://maven.moonsworth.com/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <repositories>
         <repository>
