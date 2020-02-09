@@ -2,20 +2,17 @@ package com.moonsworth.client.nethandler.shared;
 
 import com.google.common.base.Preconditions;
 import com.moonsworth.client.nethandler.ByteBufWrapper;
-import com.moonsworth.client.nethandler.ILCNetHandler;
 import com.moonsworth.client.nethandler.LCPacket;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 
-@Getter
-@NoArgsConstructor
-public class LCPacketWaypointRemove extends LCPacket {
+public final class LCPacketWaypointRemove extends LCPacket {
 
-    private String name;
+    @Getter private String name;
+    @Getter private String world;
 
-    private String world;
+    public LCPacketWaypointRemove() {}
 
     public LCPacketWaypointRemove(String name, String world) {
         this.name = Preconditions.checkNotNull(name, "name");
@@ -23,19 +20,20 @@ public class LCPacketWaypointRemove extends LCPacket {
     }
 
     @Override
-    public void write(ByteBufWrapper b) throws IOException {
-        b.writeString(name);
-        b.writeString(world);
+    public void write(ByteBufWrapper buf) throws IOException {
+        buf.writeString(name);
+        buf.writeString(world);
     }
 
     @Override
-    public void read(ByteBufWrapper b) throws IOException {
-        this.name = b.readString();
-        this.world = b.readString();
+    public void read(ByteBufWrapper buf) throws IOException {
+        this.name = buf.readString();
+        this.world = buf.readString();
     }
 
     @Override
-    public void process(ILCNetHandler handler) {
+    public void process(LCNetHandler handler) {
         handler.handleRemoveWaypoint(this);
     }
+
 }

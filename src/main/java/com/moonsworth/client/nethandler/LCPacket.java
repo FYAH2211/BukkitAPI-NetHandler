@@ -3,7 +3,8 @@ package com.moonsworth.client.nethandler;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.moonsworth.client.nethandler.client.*;
-import com.moonsworth.client.nethandler.server.*;
+import com.moonsworth.client.nethandler.shared.LCNetHandler;
+import com.moonsworth.client.nethandler.shared.LCPacketEmoteBroadcast;
 import com.moonsworth.client.nethandler.shared.LCPacketWaypointAdd;
 import com.moonsworth.client.nethandler.shared.LCPacketWaypointRemove;
 import io.netty.buffer.ByteBuf;
@@ -16,15 +17,7 @@ public abstract class LCPacket {
     private static final BiMap<Class, Integer> REGISTRY = HashBiMap.create();
 
     static {
-        // Client
-        addPacket(0, LCPacketClientVoice.class);
-        addPacket(1, LCPacketVoiceChannelSwitch.class);
-        addPacket(2, LCPacketVoiceMute.class);
-        addPacket(27, LCPacketVersionNumber.class);
-        // Emotes
-        addPacket(26, LCPacketEmoteBroadcast.class);
-
-        // Server
+        // client
         addPacket(3, LCPacketCooldown.class);
         addPacket(4, LCPacketHologram.class);
         addPacket(6, LCPacketHologramRemove.class);
@@ -38,16 +31,13 @@ public abstract class LCPacket {
         addPacket(13, LCPacketTeammates.class);
         addPacket(14, LCPacketTitle.class);
         addPacket(15, LCPacketUpdateWorld.class);
-        addPacket(16, LCPacketVoice.class);
-        addPacket(17, LCPacketVoiceChannel.class);
-        addPacket(18, LCPacketVoiceChannelRemove.class);
-        addPacket(19, LCPacketVoiceChannelUpdate.class);
         addPacket(20, LCPacketWorldBorder.class);
         addPacket(21, LCPacketWorldBorderRemove.class);
         addPacket(22, LCPacketWorldBorderUpdate.class);
         addPacket(25, LCPacketGhost.class);
 
-        // Shared
+        // shared
+        addPacket(26, LCPacketEmoteBroadcast.class);
         addPacket(23, LCPacketWaypointAdd.class);
         addPacket(24, LCPacketWaypointRemove.class);
     }
@@ -72,8 +62,8 @@ public abstract class LCPacket {
                 packet.read(wrappedBuffer);
 
                 return packet;
-            } catch (IOException | InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (IOException | InstantiationException | IllegalAccessException ex) {
+                ex.printStackTrace();
             }
         }
 
@@ -81,16 +71,7 @@ public abstract class LCPacket {
     }
 
     public static byte[] getPacketData(LCPacket packet) {
-        ByteBufWrapper wrappedBuffer = new ByteBufWrapper(Unpooled.buffer());
-        wrappedBuffer.writeVarInt(REGISTRY.get(packet.getClass()));
-
-        try {
-            packet.write(wrappedBuffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return wrappedBuffer.buf().array();
+        return getPacketBuf(packet).array();
     }
 
     public static ByteBuf getPacketBuf(LCPacket packet) {
@@ -99,8 +80,8 @@ public abstract class LCPacket {
 
         try {
             packet.write(wrappedBuffer);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
 
         return wrappedBuffer.buf();
@@ -116,30 +97,11 @@ public abstract class LCPacket {
         REGISTRY.put(clazz, id);
     }
 
-    public abstract void write(ByteBufWrapper b) throws IOException;
+    public abstract void write(ByteBufWrapper buf) throws IOException;
 
-    public abstract void read(ByteBufWrapper b) throws IOException;
+    public abstract void read(ByteBufWrapper buf) throws IOException;
 
-    public abstract void process(ILCNetHandler handler);
-
-    protected void writeBlob(ByteBufWrapper b, byte[] bytes) {
-        b.buf().writeShort(bytes.length);
-        b.buf().writeBytes(bytes);
-    }
-
-    protected byte[] readBlob(ByteBufWrapper b) {
-        short key = b.buf().readShort();
-
-        if (key < 0) {
-            System.out.println("Key was smaller than nothing!  Weird key!");
-        } else {
-            byte[] blob = new byte[key];
-            b.buf().readBytes(blob);
-            return blob;
-        }
-
-        return null;
-    }
+    public abstract void process(LCNetHandler handler);
 
     public <T> void attach(T obj) {
         this.attachment = obj;
@@ -149,4 +111,5 @@ public abstract class LCPacket {
     public <T> T getAttachment() {
         return (T) attachment;
     }
+
 }

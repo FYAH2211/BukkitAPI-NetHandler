@@ -1,49 +1,46 @@
-package com.moonsworth.client.nethandler.server;
+package com.moonsworth.client.nethandler.client;
 
 import com.moonsworth.client.nethandler.ByteBufWrapper;
-import com.moonsworth.client.nethandler.ILCNetHandler;
 import com.moonsworth.client.nethandler.LCPacket;
-import com.moonsworth.client.nethandler.client.ILCNetHandlerClient;
+import com.moonsworth.client.nethandler.shared.LCNetHandler;
 import lombok.Getter;
 
 import java.io.IOException;
 import java.util.*;
 
-@Getter
-public class LCPacketNametagsUpdate extends LCPacket {
+public final class LCPacketNametagsUpdate extends LCPacket {
 
-    private Map<UUID, List<String>> playersMap;
+    @Getter private Map<UUID, List<String>> playersMap;
 
-    public LCPacketNametagsUpdate() {
-    }
+    public LCPacketNametagsUpdate() {}
 
     public LCPacketNametagsUpdate(Map<UUID, List<String>> playersMap) {
         this.playersMap = playersMap;
     }
 
     @Override
-    public void write(ByteBufWrapper b) throws IOException {
-        b.writeVarInt(playersMap == null ? -1 : playersMap.size());
+    public void write(ByteBufWrapper buf) throws IOException {
+        buf.writeVarInt(playersMap == null ? -1 : playersMap.size());
 
         if (playersMap != null) {
             for (Map.Entry<UUID, List<String>> entry : playersMap.entrySet()) {
                 UUID uuid = entry.getKey();
                 List<String> tags = entry.getValue();
 
-                b.writeUUID(uuid);
+                buf.writeUUID(uuid);
 
-                b.writeVarInt(tags.size());
+                buf.writeVarInt(tags.size());
 
                 for (String s : tags) {
-                    b.writeString(s);
+                    buf.writeString(s);
                 }
             }
         }
     }
 
     @Override
-    public void read(ByteBufWrapper b) throws IOException {
-        int playersMapSize = b.readVarInt();
+    public void read(ByteBufWrapper buf) throws IOException {
+        int playersMapSize = buf.readVarInt();
 
         if (playersMapSize == -1) {
             this.playersMap = null;
@@ -52,13 +49,13 @@ public class LCPacketNametagsUpdate extends LCPacket {
 
         this.playersMap = new HashMap<>();
         for (int i = 0; i < playersMapSize; i++) {
-            UUID uuid = b.readUUID();
+            UUID uuid = buf.readUUID();
 
-            int tagsSize = b.readVarInt();
+            int tagsSize = buf.readVarInt();
 
             List<String> tags = new ArrayList<>();
             for (int j = 0; j < tagsSize; j++) {
-                tags.add(b.readString());
+                tags.add(buf.readString());
             }
 
             this.playersMap.put(uuid, tags);
@@ -66,7 +63,8 @@ public class LCPacketNametagsUpdate extends LCPacket {
     }
 
     @Override
-    public void process(ILCNetHandler handler) {
-        ((ILCNetHandlerClient) handler).handleNametagsUpdate(this);
+    public void process(LCNetHandler handler) {
+        ((LCNetHandlerClient) handler).handleNametagsUpdate(this);
     }
+
 }

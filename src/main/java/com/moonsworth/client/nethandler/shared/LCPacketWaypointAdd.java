@@ -2,26 +2,23 @@ package com.moonsworth.client.nethandler.shared;
 
 import com.google.common.base.Preconditions;
 import com.moonsworth.client.nethandler.ByteBufWrapper;
-import com.moonsworth.client.nethandler.ILCNetHandler;
 import com.moonsworth.client.nethandler.LCPacket;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 
-@Getter
-@NoArgsConstructor
-public class LCPacketWaypointAdd extends LCPacket {
+public final class LCPacketWaypointAdd extends LCPacket {
 
-    private String name;
+    @Getter private String name;
+    @Getter private String world;
+    @Getter private int color;
+    @Getter private int x;
+    @Getter private int y;
+    @Getter private int z;
+    @Getter private boolean forced;
+    @Getter private boolean visible;
 
-    private String world;
-
-    private int color;
-
-    private int x, y, z;
-
-    private boolean forced, visible;
+    public LCPacketWaypointAdd() {}
 
     public LCPacketWaypointAdd(String name, String world, int color, int x, int y, int z, boolean forced, boolean visible) {
         this.name = Preconditions.checkNotNull(name, "name");
@@ -35,31 +32,32 @@ public class LCPacketWaypointAdd extends LCPacket {
     }
 
     @Override
-    public void write(ByteBufWrapper b) throws IOException {
-        b.writeString(name);
-        b.writeString(world);
-        b.buf().writeInt(color);
-        b.buf().writeInt(x);
-        b.buf().writeInt(y);
-        b.buf().writeInt(z);
-        b.buf().writeBoolean(forced);
-        b.buf().writeBoolean(visible);
+    public void write(ByteBufWrapper buf) throws IOException {
+        buf.writeString(name);
+        buf.writeString(world);
+        buf.buf().writeInt(color);
+        buf.buf().writeInt(x);
+        buf.buf().writeInt(y);
+        buf.buf().writeInt(z);
+        buf.buf().writeBoolean(forced);
+        buf.buf().writeBoolean(visible);
     }
 
     @Override
-    public void read(ByteBufWrapper b) throws IOException {
-        this.name = b.readString();
-        this.world = b.readString();
-        this.color = b.buf().readInt();
-        this.x = b.buf().readInt();
-        this.y = b.buf().readInt();
-        this.z = b.buf().readInt();
-        this.forced = b.buf().readBoolean();
-        this.visible = b.buf().readBoolean();
+    public void read(ByteBufWrapper buf) throws IOException {
+        this.name = buf.readString();
+        this.world = buf.readString();
+        this.color = buf.buf().readInt();
+        this.x = buf.buf().readInt();
+        this.y = buf.buf().readInt();
+        this.z = buf.buf().readInt();
+        this.forced = buf.buf().readBoolean();
+        this.visible = buf.buf().readBoolean();
     }
 
     @Override
-    public void process(ILCNetHandler handler) {
+    public void process(LCNetHandler handler) {
         handler.handleAddWaypoint(this);
     }
+
 }

@@ -7,7 +7,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class ByteBufWrapper {
+public final class ByteBufWrapper {
 
     private final ByteBuf buf;
 
@@ -54,9 +54,9 @@ public class ByteBufWrapper {
 
         if (isPresent) {
             return supplier.get();
+        } else {
+            return null;
         }
-
-        return null;
     }
 
     public void writeString(String s) {
@@ -90,4 +90,5 @@ public class ByteBufWrapper {
     public ByteBuf buf() {
         return buf;
     }
+
 }
