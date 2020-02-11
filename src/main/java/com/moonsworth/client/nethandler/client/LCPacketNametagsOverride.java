@@ -25,13 +25,15 @@ public final class LCPacketNametagsOverride extends LCPacket {
     @Override
     public void write(ByteBufWrapper buf) throws IOException {
         buf.writeUUID(this.player);
+        buf.buf().writeBoolean(this.tags != null);
 
-        buf.writeOptional(this.tags, (t) -> {
-            buf.writeVarInt(t.size());
-            for (String s : t) {
-                buf.writeString(s);
+        if (this.tags != null) {
+            buf.writeVarInt(tags.size());
+
+            for (String tag : tags) {
+                buf.writeString(tag);
             }
-        });
+        }
     }
 
     @Override
@@ -40,8 +42,8 @@ public final class LCPacketNametagsOverride extends LCPacket {
 
         this.tags = buf.readOptional(() -> {
             int tagsSize = buf.readVarInt();
+            List<String> tags = new ArrayList<>(tagsSize);
 
-            List<String> tags = new ArrayList<>();
             for (int i = 0; i < tagsSize; i++) {
                 tags.add(buf.readString());
             }

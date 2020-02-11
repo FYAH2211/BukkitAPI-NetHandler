@@ -10,16 +10,16 @@ public interface LCNetHandlerClient extends LCNetHandler {
     void handleAddHologram(LCPacketHologram packet);
     void handleRemoveHologram(LCPacketHologramRemove packet);
     void handleUpdateHologram(LCPacketHologramUpdate packet);
-    void handleOverrideNametags(LCPacketNametagsOverride packet); #
-    void handleNametagsUpdate(LCPacketNametagsUpdate packet); #
+    void handleOverrideNametags(LCPacketNametagsOverride packet);
+    void handleNametagsUpdate(LCPacketNametagsUpdate packet);
     void handleNotification(LCPacketNotification packet);
-    void handleServerRule(LCPacketServerRule packet); #
+    void handleServerRule(LCPacketServerRule packet);
     void handleServerUpdate(LCPacketServerUpdate packet);
     void handleStaffModState(LCPacketStaffModState packet);
-    void handleTeammates(LCPacketTeammates packet); #
+    void handleTeammates(LCPacketTeammates packet);
     void handleTitle(LCPacketTitle packet);
     void handleUpdateWorld(LCPacketUpdateWorld packet);
-    void handleWorldBorder(LCPacketWorldBorder packet); #
+    void handleWorldBorder(LCPacketWorldBorder packet);
     void handleWorldBorderRemove(LCPacketWorldBorderRemove packet);
     void handleWorldBorderUpdate(LCPacketWorldBorderUpdate packet);
 

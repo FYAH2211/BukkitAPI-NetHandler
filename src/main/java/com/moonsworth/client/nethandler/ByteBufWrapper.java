@@ -41,14 +41,6 @@ public final class ByteBufWrapper {
         return i;
     }
 
-    public <T> void writeOptional(T obj, Consumer<T> consumer) {
-        buf.writeBoolean(obj != null);
-
-        if (obj != null) {
-            consumer.accept(obj);
-        }
-    }
-
     public <T> T readOptional(Supplier<T> supplier) {
         boolean isPresent = buf.readBoolean();
 

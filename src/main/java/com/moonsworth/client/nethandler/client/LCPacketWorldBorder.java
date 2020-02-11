@@ -35,7 +35,12 @@ public final class LCPacketWorldBorder extends LCPacket {
 
     @Override
     public void write(ByteBufWrapper buf) throws IOException {
-        buf.writeOptional(id, buf::writeString);
+        buf.buf().writeBoolean(id != null);
+
+        if (id != null) {
+            buf.writeString(id);
+        }
+
         buf.writeString(world);
         buf.buf().writeBoolean(cancelsExit);
         buf.buf().writeBoolean(canShrinkExpand);

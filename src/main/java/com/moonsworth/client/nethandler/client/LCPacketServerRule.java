@@ -19,27 +19,23 @@ public final class LCPacketServerRule extends LCPacket {
     public LCPacketServerRule() {}
 
     public LCPacketServerRule(ServerRule rule, float value) {
-        this(rule);
+        this.rule = rule;
         this.floatValue = value;
     }
 
     public LCPacketServerRule(ServerRule rule, boolean value) {
-        this(rule);
+        this.rule = rule;
         this.booleanValue = value;
     }
 
     public LCPacketServerRule(ServerRule rule, int value) {
-        this(rule);
+        this.rule = rule;
         this.intValue = value;
     }
 
     public LCPacketServerRule(ServerRule rule, String value) {
-        this(rule);
-        this.stringValue = value;
-    }
-
-    private LCPacketServerRule(ServerRule rule) {
         this.rule = rule;
+        this.stringValue = value;
     }
 
     @Override

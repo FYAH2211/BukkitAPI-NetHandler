@@ -23,18 +23,14 @@ public final class LCPacketNametagsUpdate extends LCPacket {
         buf.writeVarInt(playersMap == null ? -1 : playersMap.size());
 
         if (playersMap != null) {
-            for (Map.Entry<UUID, List<String>> entry : playersMap.entrySet()) {
-                UUID uuid = entry.getKey();
-                List<String> tags = entry.getValue();
-
+            playersMap.forEach((uuid, tags) -> {
                 buf.writeUUID(uuid);
-
                 buf.writeVarInt(tags.size());
 
-                for (String s : tags) {
-                    buf.writeString(s);
+                for (String tag : tags) {
+                    buf.writeString(tag);
                 }
-            }
+            });
         }
     }
 
@@ -42,23 +38,20 @@ public final class LCPacketNametagsUpdate extends LCPacket {
     public void read(ByteBufWrapper buf) throws IOException {
         int playersMapSize = buf.readVarInt();
 
-        if (playersMapSize == -1) {
-            this.playersMap = null;
-            return;
-        }
+        if (playersMapSize != -1) {
+            this.playersMap = new HashMap<>();
 
-        this.playersMap = new HashMap<>();
-        for (int i = 0; i < playersMapSize; i++) {
-            UUID uuid = buf.readUUID();
+            for (int i = 0; i < playersMapSize; i++) {
+                UUID uuid = buf.readUUID();
+                int tagsSize = buf.readVarInt();
+                List<String> tags = new ArrayList<>(tagsSize);
 
-            int tagsSize = buf.readVarInt();
+                for (int j = 0; j < tagsSize; j++) {
+                    tags.add(buf.readString());
+                }
 
-            List<String> tags = new ArrayList<>();
-            for (int j = 0; j < tagsSize; j++) {
-                tags.add(buf.readString());
+                this.playersMap.put(uuid, tags);
             }
-
-            this.playersMap.put(uuid, tags);
         }
     }
 

@@ -27,41 +27,42 @@ public final class LCPacketTeammates extends LCPacket {
     @Override
     public void write(ByteBufWrapper buf) throws IOException {
         buf.buf().writeBoolean(leader != null);
+
         if (leader != null) {
             buf.writeUUID(leader);
         }
 
         buf.buf().writeLong(lastMs);
+        buf.writeVarInt(this.players.size());
 
-        buf.writeVarInt(this.players.values().size());
+        this.players.forEach((uuid, posMap) -> {
+            buf.writeUUID(uuid);
+            buf.writeVarInt(posMap.size());
 
-        for (Map.Entry<UUID, Map<String, Double>> entry : this.players.entrySet()) {
-            buf.writeUUID(entry.getKey());
-            buf.writeVarInt(entry.getValue().values().size());
-
-            for (Map.Entry<String, Double> entry1 : entry.getValue().entrySet()) {
-                buf.writeString(entry1.getKey());
-                buf.buf().writeDouble(entry1.getValue());
-            }
-        }
+            posMap.forEach((key, val) -> {
+                buf.writeString(key);
+                buf.buf().writeDouble(val);
+            });
+        });
     }
 
     @Override
     public void read(ByteBufWrapper buf) throws IOException {
-        boolean hasLeader = buf.buf().readBoolean();
-        if (hasLeader) this.leader = buf.readUUID();
+        if (buf.buf().readBoolean()) {
+            this.leader = buf.readUUID();
+        }
+
         this.lastMs = buf.buf().readLong();
 
         int playersSize = buf.readVarInt();
         this.players = new HashMap<>();
 
-        for (int i = 0; i < playersSize; ++i) {
+        for (int i = 0; i < playersSize; i++) {
             UUID uuid = buf.readUUID();
-
             int posMapSize = buf.readVarInt();
             Map<String, Double> posMap = new HashMap<>();
 
-            for (int j = 0; j < posMapSize; ++j) {
+            for (int j = 0; j < posMapSize; j++) {
                 String key = buf.readString();
                 double val = buf.buf().readDouble();
 
