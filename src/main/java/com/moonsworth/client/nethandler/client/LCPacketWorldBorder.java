@@ -53,7 +53,10 @@ public final class LCPacketWorldBorder extends LCPacket {
 
     @Override
     public void read(ByteBufWrapper buf) throws IOException {
-        this.id = buf.readOptional(buf::readString);
+        if (buf.buf().readBoolean()) {
+            this.id = buf.readString();
+        }
+
         this.world = buf.readString();
         this.cancelsExit = buf.buf().readBoolean();
         this.canShrinkExpand = buf.buf().readBoolean();

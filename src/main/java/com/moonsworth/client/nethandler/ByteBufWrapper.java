@@ -41,16 +41,6 @@ public final class ByteBufWrapper {
         return i;
     }
 
-    public <T> T readOptional(Supplier<T> supplier) {
-        boolean isPresent = buf.readBoolean();
-
-        if (isPresent) {
-            return supplier.get();
-        } else {
-            return null;
-        }
-    }
-
     public void writeString(String s) {
         byte[] arr = s.getBytes(Charsets.UTF_8);
 

@@ -40,16 +40,14 @@ public final class LCPacketNametagsOverride extends LCPacket {
     public void read(ByteBufWrapper buf) throws IOException {
         this.player = buf.readUUID();
 
-        this.tags = buf.readOptional(() -> {
+        if (buf.buf().readBoolean()) {
             int tagsSize = buf.readVarInt();
-            List<String> tags = new ArrayList<>(tagsSize);
+            this.tags = new ArrayList<>(tagsSize);
 
             for (int i = 0; i < tagsSize; i++) {
                 tags.add(buf.readString());
             }
-
-            return tags;
-        });
+        }
     }
 
     @Override
