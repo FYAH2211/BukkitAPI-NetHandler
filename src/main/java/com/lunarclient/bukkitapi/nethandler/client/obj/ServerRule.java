@@ -19,7 +19,17 @@ public enum ServerRule {
      * A warning message will be shown when attempting to disconnect if the current
      * game is competitive.
      */
-    COMPETITIVE_GAME("competitiveGame", Boolean.class);
+    COMPETITIVE_GAME("competitiveGame", Boolean.class),
+    
+    /**
+     * If this server forces shaders to be disabled
+     */
+    SHADERS_DISABLED("shadersDisabled", Boolean.class),
+    
+    /**
+     * If this server has enabled voice chat
+     */
+    VOICE_ENABLED("voiceEnabled", Boolean.class);
 
     @Getter private String id;
     @Getter private Class type;
