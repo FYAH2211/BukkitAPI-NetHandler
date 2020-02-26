@@ -1,6 +1,10 @@
 package com.lunarclient.bukkitapi.nethandler;
 
 import com.lunarclient.bukkitapi.nethandler.client.*;
+import com.lunarclient.bukkitapi.nethandler.server.LCPacketVoice;
+import com.lunarclient.bukkitapi.nethandler.server.LCPacketVoiceChannel;
+import com.lunarclient.bukkitapi.nethandler.server.LCPacketVoiceChannelRemove;
+import com.lunarclient.bukkitapi.nethandler.server.LCPacketVoiceChannelUpdate;
 import com.lunarclient.bukkitapi.nethandler.shared.LCNetHandler;
 import com.lunarclient.bukkitapi.nethandler.shared.LCPacketEmoteBroadcast;
 import com.lunarclient.bukkitapi.nethandler.shared.LCPacketWaypointAdd;
@@ -18,6 +22,15 @@ public abstract class LCPacket {
     private static final Map<Integer, Class> idToClass = new HashMap<>();
 
     static {
+        addPacket(0, LCPacketClientVoice.class);
+        addPacket(16, LCPacketVoice.class);
+        addPacket(1, LCPacketVoiceChannelSwitch.class);
+        addPacket(2, LCPacketVoiceMute.class);
+
+        addPacket(17, LCPacketVoiceChannel.class);
+        addPacket(18, LCPacketVoiceChannelRemove.class);
+        addPacket(19, LCPacketVoiceChannelUpdate.class);
+
         // client
         addPacket(3, LCPacketCooldown.class);
         addPacket(4, LCPacketHologram.class);
@@ -112,6 +125,25 @@ public abstract class LCPacket {
     @SuppressWarnings("unchecked")
     public <T> T getAttachment() {
         return (T) attachment;
+    }
+
+    protected void writeBlob(ByteBufWrapper b, byte[] bytes) {
+        b.buf().writeShort(bytes.length);
+        b.buf().writeBytes(bytes);
+    }
+
+    protected byte[] readBlob(ByteBufWrapper b) {
+        short key = b.buf().readShort();
+
+        if (key < 0) {
+            System.out.println("Key was smaller than nothing!  Weird key!");
+        } else {
+            byte[] blob = new byte[key];
+            b.buf().readBytes(blob);
+            return blob;
+        }
+
+        return null;
     }
 
 }
