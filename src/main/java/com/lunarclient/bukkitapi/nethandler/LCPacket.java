@@ -49,7 +49,7 @@ public abstract class LCPacket {
         addPacket(21, LCPacketWorldBorderRemove.class);
         addPacket(22, LCPacketWorldBorderUpdate.class);
         addPacket(25, LCPacketGhost.class);
-        addPacket(26, LCPacketBossBar.class);
+        addPacket(28, LCPacketBossBar.class);
 
         // shared
         addPacket(26, LCPacketEmoteBroadcast.class);
