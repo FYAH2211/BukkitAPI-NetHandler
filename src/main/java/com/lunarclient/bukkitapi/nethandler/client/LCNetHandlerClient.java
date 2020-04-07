@@ -24,8 +24,10 @@ public interface LCNetHandlerClient extends LCNetHandler {
     void handleTitle(LCPacketTitle packet);
     void handleUpdateWorld(LCPacketUpdateWorld packet);
     void handleWorldBorder(LCPacketWorldBorder packet);
+    void handleWorldBorderCreateNew(LCPacketWorldBorderCreateNew packet);
     void handleWorldBorderRemove(LCPacketWorldBorderRemove packet);
     void handleWorldBorderUpdate(LCPacketWorldBorderUpdate packet);
+    void handleWorldBorderUpdateNew(LCPacketWorldBorderUpdateNew packet);
     void handleVoice(LCPacketVoice packet);
     void handleVoiceChannels(LCPacketVoiceChannel packet);
     void handleVoiceChannelUpdate(LCPacketVoiceChannelUpdate packet);
