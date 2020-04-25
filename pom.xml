@@ -30,6 +30,12 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.30.Final</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.jsoniter</groupId>
+            <artifactId>jsoniter</artifactId>
+            <version>0.9.19</version>
+        </dependency>
     </dependencies>
 
     <build>
