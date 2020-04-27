@@ -12,6 +12,8 @@ public final class LCPacketModSettings extends LCPacket {
 
     private ModSettings settings;
 
+    public LCPacketModSettings() {}
+
     public LCPacketModSettings(ModSettings modSettings) {
         this.settings = modSettings;
     }
@@ -30,5 +32,9 @@ public final class LCPacketModSettings extends LCPacket {
     @Override
     public void process(LCNetHandler handler) {
         ((LCNetHandlerClient) handler).handleModSettings(this);
+    }
+
+    public ModSettings getSettings() {
+        return settings;
     }
 }

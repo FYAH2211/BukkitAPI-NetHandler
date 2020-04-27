@@ -21,6 +21,9 @@ public final class ModSettings {
         return this.modSettings.get(modId);
     }
 
+    public Map<String, ModSetting> getModSettings() {
+        return modSettings;
+    }
 
     public static class ModSetting {
         private boolean enabled;
