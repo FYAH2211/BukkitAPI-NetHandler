@@ -32,5 +32,5 @@ public interface LCNetHandlerClient extends LCNetHandler {
     void handleVoiceChannels(LCPacketVoiceChannel packet);
     void handleVoiceChannelUpdate(LCPacketVoiceChannelUpdate packet);
     void handleVoiceChannelDelete(LCPacketVoiceChannelRemove packet);
-
+    void handleModSettings(LCPacketModSettings packetModSettings);
 }

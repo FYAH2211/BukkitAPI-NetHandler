@@ -53,6 +53,7 @@ public abstract class LCPacket {
         addPacket(28, LCPacketBossBar.class);
         addPacket(29, LCPacketWorldBorderCreateNew.class);
         addPacket(30, LCPacketWorldBorderUpdateNew.class);
+        addPacket(31, LCPacketModSettings.class);
 
         // shared
         addPacket(26, LCPacketEmoteBroadcast.class);

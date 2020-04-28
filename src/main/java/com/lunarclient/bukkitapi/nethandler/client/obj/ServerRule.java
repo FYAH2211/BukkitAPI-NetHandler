@@ -20,12 +20,12 @@ public enum ServerRule {
      * game is competitive.
      */
     COMPETITIVE_GAME("competitiveGame", Boolean.class),
-    
+
     /**
      * If this server forces shaders to be disabled
      */
     SHADERS_DISABLED("shadersDisabled", Boolean.class),
-    
+
     /**
      * If this server has enabled voice chat
      */
