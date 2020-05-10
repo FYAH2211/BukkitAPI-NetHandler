@@ -27,6 +27,11 @@ public enum ServerRule {
     SHADERS_DISABLED("shadersDisabled", Boolean.class),
 
     /**
+     * If the server runs legacy enchanting (pre 1.8)
+     */
+    LEGACY_ENCHANTING("legacyEnchanting", Boolean.class),
+
+    /**
      * If this server has enabled voice chat
      */
     VOICE_ENABLED("voiceEnabled", Boolean.class);
