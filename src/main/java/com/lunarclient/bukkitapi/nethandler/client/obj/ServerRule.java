@@ -34,7 +34,12 @@ public enum ServerRule {
     /**
      * If this server has enabled voice chat
      */
-    VOICE_ENABLED("voiceEnabled", Boolean.class);
+    VOICE_ENABLED("voiceEnabled", Boolean.class),
+
+    /**
+     * Whether to revert combat mechanics to 1.7
+     */
+    LEGACY_COMBAT("legacyCombat", Boolean.class);
 
     @Getter private String id;
     @Getter private Class type;
