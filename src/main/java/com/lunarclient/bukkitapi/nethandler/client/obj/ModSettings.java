@@ -1,6 +1,8 @@
 package com.lunarclient.bukkitapi.nethandler.client.obj;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.lunarclient.bukkitapi.nethandler.ModSettingsAdapter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +10,7 @@ import java.util.Objects;
 
 public final class ModSettings {
 
-    public static final Gson GSON = new Gson();
+    public static final Gson GSON = new GsonBuilder().registerTypeHierarchyAdapter(ModSettings.class, new ModSettingsAdapter()).create();
 
     private Map<String, ModSetting> modSettings = new HashMap<>();
 
