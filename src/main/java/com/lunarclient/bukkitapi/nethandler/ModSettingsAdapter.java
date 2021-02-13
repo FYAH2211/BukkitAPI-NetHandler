@@ -24,7 +24,7 @@ public class ModSettingsAdapter implements JsonDeserializer<ModSettings>, JsonSe
 
             settings.getModSettings().put(entry.getKey(), deserializeModSetting(modSettingObject));
         }
-        return null;
+        return settings;
     }
 
     @Override
